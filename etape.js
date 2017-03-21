@@ -47,6 +47,12 @@ app.get('/ajouterUn', function (req, res) {
 
 //etape 5
 app.get('/detruire', function (req, res) {
+	fs.readFile( __dirname + "/public/text/" + "collection_provinces.json", 'utf8', function (err, data) {
+		//data = JSON.parse(data);
+		//delete data["user" + req.params.id];
+		//res.end( JSON.stringify(data));
+		db.collection.remove(data)
+	});
 
 	res.render("index.ejs")
 })
