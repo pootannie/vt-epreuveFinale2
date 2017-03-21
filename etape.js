@@ -11,11 +11,11 @@ app.use(bodyParser.json())  // pour traiter les données JSON
 
 //afficher le index.ejs
 app.get('/',  (req, res) => {
-	res.render("index.ejs");
+	res.render("index_defaut.ejs");
 
 })
 
-var server = app.listen(8080, function () {
+var server = app.listen(8081, function () {
    var host = server.address().address
    var port = server.address().port
 
@@ -36,6 +36,14 @@ app.get('/provinces', function (req, res) {
 })
 
 //etape 3
+/*MongoClient.connect('mongodb://127.0.0.1:27017/carnet_adresse', (err, database) => {
+  if (err) return console.log(err)
+  db = database
+  app.listen(8081, () => {
+    console.log('connexion à la BD et on écoute sur le port 8081')
+  })
+})*/
+
 app.get('/collection', function (req, res) {
 	res.render("index.ejs")
 })
@@ -60,10 +68,9 @@ app.get('/detruire', function (req, res) {
 //etape 6
 app.get('/ajouterPlusieurs', function (req, res) {
 	fs.readFile( __dirname + "/public/text/" + "collection_provinces.json", 'utf8', function (err, data) {
-		console.log(data);
 		data = JSON.parse(data);
-		console.log(data);
-		res.end( JSON.stringify(data));
+		db.collection.insertMany(data);
+		res.end(JSON.stringify(data));
 	});
 	res.render("index.ejs", {provinces : JSON.parse(data)})
 })
