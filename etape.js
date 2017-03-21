@@ -31,8 +31,8 @@ app.get('/fichier', function (req, res) {
 
 //etape 2
 app.get('/provinces', function (req, res) {
-	fs.readFileSync(__dirname + "/public/text/" + "collection_provinces.json", "utf8")
-	res.render("index.ejs")
+	var data = fs.readFileSync(__dirname + "/public/text/" + "collection_provinces.json", "utf8")
+	res.render('index.ejs', {provinces : JSON.parse(data)});
 })
 
 //etape 3
@@ -47,10 +47,17 @@ app.get('/ajouterUn', function (req, res) {
 
 //etape 5
 app.get('/detruire', function (req, res) {
+
 	res.render("index.ejs")
 })
 
 //etape 6
 app.get('/ajouterPlusieurs', function (req, res) {
-	res.render("index.ejs")
+	fs.readFile( __dirname + "/public/text/" + "collection_provinces.json", 'utf8', function (err, data) {
+		console.log(data);
+		data = JSON.parse(data);
+		console.log(data);
+		res.end( JSON.stringify(data));
+	});
+	res.render("index.ejs", {provinces : JSON.parse(data)})
 })
